@@ -18,5 +18,18 @@
         <div style="background-color: {{ color }};">{{ color }}</div>
     {% endfor %}
 
+    {# Création d'un Objet #}
+    {% set book ={
+            title: 'Symfony',
+            year: '2006',
+            author: 'Fabien Potencier'
+        }
+    %}
+    <h3>{{ book.author }}</h3>
+<div>
+    {% for key,val in book %}
+        <div>{{ key }}: {{ val }}</div>
+    {% endfor %}
+</div>
 </body>
 </html>
