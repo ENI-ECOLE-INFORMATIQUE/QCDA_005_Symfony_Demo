@@ -36,6 +36,14 @@
         <div>{{ key }}: {{ val }}</div>
     {% endfor %}
 </div>
+<div>
+    {% set titre ="<h1>Mon titre avec la balise h1 </h1>" %}
+    {{ titre | raw }}
+
+    {% set javascript ="<script>alert('toto'); </script>" %}
+    {{ javascript |raw }}
+</div>
+
 <footer>
     {{ "+1 year" | date('Y') }}
 </footer>
