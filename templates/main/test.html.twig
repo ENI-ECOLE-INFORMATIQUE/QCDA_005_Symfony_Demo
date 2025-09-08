@@ -11,5 +11,12 @@
     {# Crée une Variable #}
     {% set name = "Philippe" %}
     <h2>{{ name }}</h2>
+
+    {# Crée un tableau #}
+    {% set colors = ["orange","brown","turquoise","blue"] %}
+    {% for color in colors %}
+        <div style="background-color: {{ color }};">{{ color }}</div>
+    {% endfor %}
+
 </body>
 </html>
