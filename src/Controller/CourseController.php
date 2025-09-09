@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Course;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,4 +46,56 @@ final class CourseController extends AbstractController
 
         ]);
     }
+    #[Route('/demo', name: 'demo', methods: ['GET'])]
+    public function demo(EntityManagerInterface $em): Response{
+        //Créer une instance de l'entité.
+        $course = new Course();
+
+        //hydrater toutes les propriétés.
+        $course->setName('Symfony');
+        $course->setContent('Le développement Web côté serveur avec Symfony');
+        $course->setDuration(10);
+        $course->setDateCreated(new \DateTimeImmutable());
+        $em->persist($course);
+
+        dump($course);
+        $em->persist($course);
+        //Ne pas oublier le flush() sinon l'objet ne sera pas persisté en base.
+        $em->flush();
+        dump($course);
+
+        //On modifie l'objet
+        $course->setName('PHP');
+        //On sauvegarde l'objet
+        // Pas besoin de faire le persist car Doctrine connait deja l'objet.
+        $em->flush();
+        dump($course);
+
+        $em->remove($course);
+        $em->flush();
+
+        return $this->render('course/create.html.twig', []);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
