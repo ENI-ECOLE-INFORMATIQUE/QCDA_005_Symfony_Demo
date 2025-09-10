@@ -26,9 +26,10 @@ class CourseType extends AbstractType
             ->add('duration',IntegerType::class,[
                 'label'=>'Durée (jours)'
             ])
-            ->add('btnCreate',SubmitType::class,[
-                'label'=>'Ajouter'
-            ])
+            //1er option pour créer le bouton submit du formulaire
+//            ->add('btnCreate',SubmitType::class,[
+//                'label'=>'Ajouter'
+//            ])
         ;
     }
 
