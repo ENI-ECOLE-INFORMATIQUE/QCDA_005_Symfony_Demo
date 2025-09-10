@@ -2,7 +2,33 @@
 
 {% block body %}
     <h1>Liste des cours</h1>
-    {# todo : Afficher les cours #}
+    {# Afficher les cours #}
+    <table class="table-sm table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Durée (jours)</th>
+                <th>Date de Création</th>
+                <th>Publié</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.name }}</td>
+                <td>{{ course.duration }}</td>
+                <td>{{ course.dateCreated | date('d/m/Y') }}</td>
+                <td>{{ course.published ? "X" : ""}}</td>
+                <td><a href="{{ path('cours_show',{'id':course.id}) }}" title="Détail du cours">Détail</a></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5">Aucune donnée dans la base.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
 
 {% block title %}
