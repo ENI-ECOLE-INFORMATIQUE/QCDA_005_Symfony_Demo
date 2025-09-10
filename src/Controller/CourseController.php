@@ -23,11 +23,16 @@ final class CourseController extends AbstractController
         ]);
     }
     #[Route('/{id}', name: 'show', requirements:['id'=>'\d+'], methods: ['GET'])]
-    public function show(int $id): Response
+    public function show(int $id,CourseRepository $courseRepository): Response
     {
-        //TODO Rechercher le cours en fonction de son id dans la BD.
+        //Rechercher le cours en fonction de son id dans la BD.
+        $course = $courseRepository->find($id);
+        //Si le cours n'est pas trouvé retourne une erreur 404.
+        if(!$course){
+            throw $this->createNotFoundException('Cours inconnu');
+        }
         return $this->render('course/show.html.twig', [
-
+            'course' => $course,
         ]);
     }
 
