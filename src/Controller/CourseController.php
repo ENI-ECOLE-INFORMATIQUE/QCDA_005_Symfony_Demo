@@ -64,11 +64,21 @@ final class CourseController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/modifier', name: 'edit', methods: ['GET','POST'])]
-    public function edit(int $id): Response
+    #[Route('/{id}/modifier', name: 'edit', requirements:['id'=>'\d+'], methods: ['GET','POST'])]
+    public function edit(Course $course, Request $request,EntityManagerInterface $em): Response
     {
-        //TODO Rechercher le cours en fonction de son id dans la BD.
+        $courseForm = $this->createForm(CourseType::class, $course);
+        $courseForm->handleRequest($request);
+        if($courseForm->isSubmitted() && $courseForm->isValid()){
+            //Le persist n'est pas obligatoire car Doctrine connait déjà l'objet
+            //$em->persist($course);
+            $em->flush();
+            $this->addFlash('success','Le cours a été modifié');
+            return $this->redirectToRoute('cours_show', ['id'=>$course->getId()]);
+        }
+        //Rechercher le cours en fonction de son id dans la BD.
         return $this->render('course/edit.html.twig', [
+            'courseForm'=>$courseForm
 
         ]);
     }

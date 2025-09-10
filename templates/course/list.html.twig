@@ -20,7 +20,11 @@
                 <td>{{ course.duration }}</td>
                 <td>{{ course.dateCreated | date('d/m/Y') }}</td>
                 <td>{{ course.published ? "X" : ""}}</td>
-                <td><a href="{{ path('cours_show',{'id':course.id}) }}" title="Détail du cours">Détail</a></td>
+                <td>
+                    <a href="{{ path('cours_show',{'id':course.id}) }}" title="Détail du cours">Détail</a>
+                    <a href="{{ path('cours_edit',{'id':course.id}) }}" title="Modifier le cours">Modifier</a>
+
+                </td>
             </tr>
             {% else %}
             <tr>
