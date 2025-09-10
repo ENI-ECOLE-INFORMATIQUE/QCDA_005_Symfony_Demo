@@ -18,7 +18,8 @@ final class CourseController extends AbstractController
     {
         //Aller chercher la liste des cours dans la BD.
        // $courses = $courseRepository->findAll();
-        $courses = $courseRepository->findBy([], ['name' => 'DESC'],5);
+       // $courses = $courseRepository->findBy([], ['name' => 'DESC'],5);
+        $courses = $courseRepository->findLastCourses();
         return $this->render('course/list.html.twig', [
             'courses' => $courses,
         ]);
