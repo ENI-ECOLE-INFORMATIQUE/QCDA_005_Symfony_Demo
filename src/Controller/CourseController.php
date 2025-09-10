@@ -23,14 +23,17 @@ final class CourseController extends AbstractController
         ]);
     }
     #[Route('/{id}', name: 'show', requirements:['id'=>'\d+'], methods: ['GET'])]
-    public function show(int $id,CourseRepository $courseRepository): Response
+    //public function show(int $id,CourseRepository $courseRepository): Response
+    //Technique parameter-conversion en mettant l'objet dans l'attribut de la fonction
+    // plus besoin de faire le find il le fait pour nous.
+    public function show(Course $course,CourseRepository $courseRepository): Response
     {
         //Rechercher le cours en fonction de son id dans la BD.
-        $course = $courseRepository->find($id);
+        //$course = $courseRepository->find($id);
         //Si le cours n'est pas trouvé retourne une erreur 404.
-        if(!$course){
-            throw $this->createNotFoundException('Cours inconnu');
-        }
+       // if(!$course){
+       //     throw $this->createNotFoundException('Cours inconnu');
+        //}
         return $this->render('course/show.html.twig', [
             'course' => $course,
         ]);
