@@ -17,7 +17,8 @@ final class CourseController extends AbstractController
     public function list(CourseRepository $courseRepository): Response
     {
         //Aller chercher la liste des cours dans la BD.
-        $courses = $courseRepository->findAll();
+       // $courses = $courseRepository->findAll();
+        $courses = $courseRepository->findBy([], ['name' => 'DESC'],5);
         return $this->render('course/list.html.twig', [
             'courses' => $courses,
         ]);
