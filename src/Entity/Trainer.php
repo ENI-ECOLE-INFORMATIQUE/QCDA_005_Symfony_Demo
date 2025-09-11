@@ -60,6 +60,9 @@ class Trainer
         return $this;
     }
 
+    public function fullname(): string{
+        return $this->lastname.' '.$this->firstname;
+    }
     public function getLastname(): ?string
     {
         return $this->lastname;
