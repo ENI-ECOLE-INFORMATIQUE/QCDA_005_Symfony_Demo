@@ -2,11 +2,14 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\Course;
+use App\Entity\Trainer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class CourseFixtures extends Fixture
+class CourseFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -20,6 +23,8 @@ class CourseFixtures extends Fixture
         $cours->setContent('Le développement web côté Serveur avec Symfony');
         $cours->setDuration(10);
         $cours->setDateCreated(new \DateTimeImmutable('2025-09-01'));
+        $cours->setCategory($this->getReference('category1',Category::class));
+        $this->addTrainers($cours);
         $manager->persist($cours);
 
         $cours= new Course();
@@ -27,6 +32,8 @@ class CourseFixtures extends Fixture
         $cours->setContent('Le développement web côté Serveur avec PHP');
         $cours->setDuration(5);
         $cours->setDateCreated(new \DateTimeImmutable('2025-08-01'));
+        $cours->setCategory($this->getReference('category1',Category::class));
+        $this->addTrainers($cours);
         $manager->persist($cours);
 
         $cours= new Course();
@@ -34,6 +41,8 @@ class CourseFixtures extends Fixture
         $cours->setContent('Administration d\'un serveur Apache sous Linux');
         $cours->setDuration(5);
         $cours->setDateCreated(new \DateTimeImmutable('2024-05-01'));
+        $cours->setCategory($this->getReference('category2',Category::class));
+        $this->addTrainers($cours);
         $manager->persist($cours);
 
         //Création de 30 cours supplémentaires
@@ -55,9 +64,23 @@ class CourseFixtures extends Fixture
             $cours->setDateCreated(\DateTimeImmutable::createFromMutable( $dateCreated));
             $dateModified=$faker->dateTimeBetween($dateCreated->format('Y-m-d'), 'now');
             $cours->setDateModified(\DateTimeImmutable::createFromMutable( $dateModified));
+            $cours->setCategory($this->getReference('category'.mt_rand(1,2),Category::class));
+            $this->addTrainers($cours);
             $manager->persist($cours);
         }
 
         $manager->flush();
     }
+
+    private function addTrainers(Course $cours) :void{
+        for($i=0;$i<=mt_rand(0,5);$i++){
+            $trainer=$this->getReference('trainer'.rand(1,20),Trainer::class);
+            $cours->addTrainer($trainer);
+        }
+    }
+
+    public function getDependencies():array{
+        return [CategoryFixtures::class,TrainerFixtures::class];
+    }
+
 }
