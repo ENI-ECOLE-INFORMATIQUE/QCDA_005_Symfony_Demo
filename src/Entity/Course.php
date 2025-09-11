@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CourseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -40,10 +42,17 @@ class Course
     #[ORM\ManyToOne(inversedBy: 'courses')]
     private ?Category $category = null;
 
+    /**
+     * @var Collection<int, Trainer>
+     */
+    #[ORM\ManyToMany(targetEntity: Trainer::class, inversedBy: 'courses')]
+    private Collection $trainers;
+
     public function __construct()
     {
         $this->dateCreated = new \DateTimeImmutable();
         $this->published =false;
+        $this->trainers = new ArrayCollection();
     }
 
 
@@ -132,6 +141,30 @@ class Course
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trainer>
+     */
+    public function getTrainers(): Collection
+    {
+        return $this->trainers;
+    }
+
+    public function addTrainer(Trainer $trainer): static
+    {
+        if (!$this->trainers->contains($trainer)) {
+            $this->trainers->add($trainer);
+        }
+
+        return $this;
+    }
+
+    public function removeTrainer(Trainer $trainer): static
+    {
+        $this->trainers->removeElement($trainer);
 
         return $this;
     }
