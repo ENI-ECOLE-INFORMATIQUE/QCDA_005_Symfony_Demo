@@ -9,6 +9,8 @@
                 <th>Titre</th>
                 <th>Durée (jours)</th>
                 <th>Date de Création</th>
+                <th>Catégorie</th>
+                <th>Formateurs</th>
                 <th>Publié</th>
                 <th></th>
             </tr>
@@ -19,6 +21,8 @@
                 <td>{{ course.name }}</td>
                 <td>{{ course.duration }}</td>
                 <td>{{ course.dateCreated | date('d/m/Y') }}</td>
+                <td>{{ course.category ? course.category.name : '?' }}</td>
+                <td>{{ course.trainers | length }}</td>
                 <td>{{ course.published ? "X" : ""}}</td>
                 <td>
                     <a href="{{ path('cours_show',{'id':course.id}) }}" title="Détail du cours">Détail</a>
@@ -28,7 +32,7 @@
             </tr>
             {% else %}
             <tr>
-                <td colspan="5">Aucune donnée dans la base.</td>
+                <td colspan="7">Aucune donnée dans la base.</td>
             </tr>
             {% endfor %}
         </tbody>
